@@ -1,7 +1,7 @@
 import logging
 
 import pymel.core as pmc
-from pymel.core.system import Path
+from pymel.core.system import
 
 log = logging.getLogger(__name__)
 
@@ -43,8 +43,7 @@ class SceneFile(object):
         self.ver = int(ver.split("v")[-1])
 
     def save(self):
-         """Saves the scene file.
-
+        """Saves the scene file.
          Returns:
              Path: the path to the scene file if successful
          """
@@ -73,10 +72,8 @@ class SceneFile(object):
 
     def increment_save(self):
         """Increments the version and saves the scene file.
-
         if the existing version of a file already exist, it should increment
         from the largest version number available in the folder.
-
         Returns:
             Path: The path to the scene file if successful
         """
