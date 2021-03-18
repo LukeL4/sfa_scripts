@@ -3,6 +3,7 @@ import logging
 from PySide2 import QtWidgets, QtCore
 from shiboken2 import wrapInstance
 import maya.OpenMayaUI as omui
+import maya.cmds as cmds
 import pymel.core as pmc
 from pymel.core.system import Path
 
@@ -30,15 +31,21 @@ class SmartSaveUI(QtWidgets.QDialog):
     def create_ui(self):
         self.title_lbl = QtWidgets.QLabel("Smart Save")
         self.title_lbl.setStyleSheet("font: bold 20px")
-        self.folder_le = QtWidgets.QLineEdit("D:\\")
+        self.folder_lay = self._create_folder_ui()
+        self.main_lay = QtWidgets.QVBoxLayout()
+        self.main_lay.addWidget(self.title_lbl)
+        self.main_lay.addLayout(self.folder_lay)
+        self.setLayout(self.main_lay)
+
+    def _create_folder_ui(self):
+        default_folder = Path(cmds.workspace(rootDirectory=True, query=True))
+        default_folder = default_folder / "scenes"
+        self.folder_le = QtWidgets.QLineEdit(default_folder)
         self.folder_browse_btn = QtWidgets.QPushButton("...")
         layout = QtWidgets.QHBoxLayout()
         layout.addWidget(self.folder_le)
         layout.addWidget(self.folder_browse_btn)
-        self.main_lay = QtWidgets.QVBoxLayout()
-        self.main_lay.addWidget(self.title_lbl)
-        self.main_lay.addLayout(layout)
-        self.setLayout(self.main_lay)
+        return layout
 
 
 class SceneFile(object):
@@ -79,7 +86,6 @@ class SceneFile(object):
 
     def save(self):
          """Saves the scene file.
-
          Returns:
              Path: the path to the scene file if successful
          """
@@ -108,14 +114,10 @@ class SceneFile(object):
 
     def increment_save(self):
         """Increments the version and saves the scene file.
-
         if the existing version of a file already exist, it should increment
         from the largest version number available in the folder.
-
         Returns:
             Path: The path to the scene file if successful
         """
         self.ver = self.next_avail_ver()
         self.save()
-
-
