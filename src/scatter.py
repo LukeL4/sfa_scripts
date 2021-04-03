@@ -93,16 +93,63 @@ class ScatterUI(QtWidgets.QDialog):
         # makes this line python 2 and 3 compatible
         super(ScatterUI, self).__init__(parent=maya_main_window())
         self.setWindowTitle("Scatter Tool")
-        self.setMinimumWidth(400)
-        self.setMinimumHeight(600)
-        self.setWindowFlags(self.windowFlags() ^  # ^ means except
-                            QtCore.Qt.WindowContextHelpButtonHint)  # controls icons like min and max and cancel
+        self.setMinimumWidth(200)
+        self.setMinimumHeight(400)
+        self.setWindowFlags(self.windowFlags() ^ # ^ means except
+                            QtCore.Qt.WindowContextHelpButtonHint) #controls icons like min and max and cancel
         self.create_ui()
 
     def create_ui(self):
         self.title_lbl = QtWidgets.QLabel("Scatter Tool")
         self.title_lbl.setStyleSheet("font:  bold 20px")
+        self.rotX_lbl = QtWidgets.QLabel("Rotate X")
+        self.rotX_lbl.setStyleSheet("font:  bold 10px")
+        self.rotY_lbl = QtWidgets.QLabel("Rotate Y")
+        self.rotY_lbl.setStyleSheet("font:  bold 10px")
+        self.rotZ_lbl = QtWidgets.QLabel("Rotate Z")
+        self.rotZ_lbl.setStyleSheet("font:  bold 10px")
+        self.scale_lbl = QtWidgets.QLabel("Scale")
+        self.scale_lbl.setStyleSheet("font:  bold 10px")
 
-        self.main_lay = QtWidgets.QVBoxLayout()  # stacking top to bottom layout group
-        self.main_lay.addWidget(self.title_lbl)
-        self.setLayout(self.main_lay)
+        self.gridlay = QtWidgets.QGridLayout()
+        self.gridlay.addWidget(self.title_lbl, 0, 0)
+        self.gridlay.addWidget(self.rotX_lbl, 1, 0)
+        self.gridlay.addWidget(self.rotY_lbl, 2, 0)
+        self.gridlay.addWidget(self.rotZ_lbl, 3, 0)
+        self.gridlay.addWidget(self.scale_lbl, 4, 0)
+        self.setLayout(self.gridlay)
+
+# rotate boxs
+        self.max_rotX = QtWidgets.QLineEdit()
+        self.gridlay.addWidget(self.max_rotX, 1, 1)
+        self.max_rotX.setMaximumWidth(80)
+        self.min_rotX = QtWidgets.QLineEdit()
+        self.gridlay.addWidget(self.min_rotX, 1, 2)
+        self.min_rotX.setMaximumWidth(80)
+
+        self.max_rotY = QtWidgets.QLineEdit()
+        self.gridlay.addWidget(self.max_rotY, 2, 1)
+        self.max_rotY.setMaximumWidth(80)
+        self.min_rotY = QtWidgets.QLineEdit()
+        self.gridlay.addWidget(self.min_rotY, 2, 2)
+        self.min_rotY.setMaximumWidth(80)
+
+        self.max_rotZ = QtWidgets.QLineEdit()
+        self.gridlay.addWidget(self.max_rotZ, 3, 1)
+        self.max_rotZ.setMaximumWidth(80)
+        self.min_rotZ = QtWidgets.QLineEdit()
+        self.gridlay.addWidget(self.min_rotZ, 3, 2)
+        self.min_rotZ.setMaximumWidth(80)
+
+
+        self.max_scale = QtWidgets.QLineEdit()
+        self.gridlay.addWidget(self.max_scale, 4, 1)
+        self.max_scale.setMaximumWidth(80)
+        self.min_scale = QtWidgets.QLineEdit()
+        self.gridlay.addWidget(self.min_scale, 4, 2)
+        self.min_scale.setMaximumWidth(80)
+
+
+
+
+
