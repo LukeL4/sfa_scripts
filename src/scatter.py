@@ -72,7 +72,6 @@ cmds.xform(instanceGroupName, centerPivots=True)
 
 # creating the ui
 
-
 import maya.OpenMayaUI as omui
 from PySide2 import QtWidgets, QtCore
 from shiboken2 import wrapInstance
@@ -93,15 +92,25 @@ class ScatterUI(QtWidgets.QDialog):
         # makes this line python 2 and 3 compatible
         super(ScatterUI, self).__init__(parent=maya_main_window())
         self.setWindowTitle("Scatter Tool")
-        self.setMinimumWidth(200)
-        self.setMinimumHeight(400)
+        self.setMinimumWidth(275)
+        self.setMaximumWidth(275)
+        self.setMinimumHeight(300)
         self.setWindowFlags(self.windowFlags() ^ # ^ means except
                             QtCore.Qt.WindowContextHelpButtonHint) #controls icons like min and max and cancel
         self.create_ui()
 
     def create_ui(self):
+        #  labels
         self.title_lbl = QtWidgets.QLabel("Scatter Tool")
         self.title_lbl.setStyleSheet("font:  bold 20px")
+        self.random_lbl = QtWidgets.QLabel("Add Randomness")
+        self.random_lbl.setStyleSheet("font:  bold 12px")
+        self.arg_lbl = QtWidgets.QLabel("Argument")
+        self.arg_lbl.setStyleSheet("font:  bold 10px")
+        self.min_lbl = QtWidgets.QLabel("Minimum")
+        self.min_lbl.setStyleSheet("font:  bold 10px")
+        self.max_lbl = QtWidgets.QLabel("Maximum")
+        self.max_lbl.setStyleSheet("font:  bold 10px")
         self.rotX_lbl = QtWidgets.QLabel("Rotate X")
         self.rotX_lbl.setStyleSheet("font:  bold 10px")
         self.rotY_lbl = QtWidgets.QLabel("Rotate Y")
@@ -113,43 +122,48 @@ class ScatterUI(QtWidgets.QDialog):
 
         self.gridlay = QtWidgets.QGridLayout()
         self.gridlay.addWidget(self.title_lbl, 0, 0)
-        self.gridlay.addWidget(self.rotX_lbl, 1, 0)
-        self.gridlay.addWidget(self.rotY_lbl, 2, 0)
-        self.gridlay.addWidget(self.rotZ_lbl, 3, 0)
-        self.gridlay.addWidget(self.scale_lbl, 4, 0)
+        self.gridlay.addWidget(self.random_lbl, 1, 0)
+        self.gridlay.addWidget(self.arg_lbl, 2, 0)
+        self.gridlay.addWidget(self.min_lbl, 2, 1)
+        self.gridlay.addWidget(self.max_lbl, 2, 2)
+        self.gridlay.addWidget(self.rotX_lbl, 3, 0)
+        self.gridlay.addWidget(self.rotY_lbl, 4, 0)
+        self.gridlay.addWidget(self.rotZ_lbl, 5, 0)
+        self.gridlay.addWidget(self.scale_lbl, 6, 0)
         self.setLayout(self.gridlay)
 
-# rotate boxs
+# line edit boxs
         self.max_rotX = QtWidgets.QLineEdit()
-        self.gridlay.addWidget(self.max_rotX, 1, 1)
+        self.gridlay.addWidget(self.max_rotX, 3, 1)
         self.max_rotX.setMaximumWidth(80)
         self.min_rotX = QtWidgets.QLineEdit()
-        self.gridlay.addWidget(self.min_rotX, 1, 2)
+        self.gridlay.addWidget(self.min_rotX, 3, 2)
         self.min_rotX.setMaximumWidth(80)
 
         self.max_rotY = QtWidgets.QLineEdit()
-        self.gridlay.addWidget(self.max_rotY, 2, 1)
+        self.gridlay.addWidget(self.max_rotY, 4, 1)
         self.max_rotY.setMaximumWidth(80)
         self.min_rotY = QtWidgets.QLineEdit()
-        self.gridlay.addWidget(self.min_rotY, 2, 2)
+        self.gridlay.addWidget(self.min_rotY, 4, 2)
         self.min_rotY.setMaximumWidth(80)
 
         self.max_rotZ = QtWidgets.QLineEdit()
-        self.gridlay.addWidget(self.max_rotZ, 3, 1)
+        self.gridlay.addWidget(self.max_rotZ, 5, 1)
         self.max_rotZ.setMaximumWidth(80)
         self.min_rotZ = QtWidgets.QLineEdit()
-        self.gridlay.addWidget(self.min_rotZ, 3, 2)
+        self.gridlay.addWidget(self.min_rotZ, 5, 2)
         self.min_rotZ.setMaximumWidth(80)
 
-
         self.max_scale = QtWidgets.QLineEdit()
-        self.gridlay.addWidget(self.max_scale, 4, 1)
+        self.gridlay.addWidget(self.max_scale, 6, 1)
         self.max_scale.setMaximumWidth(80)
         self.min_scale = QtWidgets.QLineEdit()
-        self.gridlay.addWidget(self.min_scale, 4, 2)
+        self.gridlay.addWidget(self.min_scale, 6, 2)
         self.min_scale.setMaximumWidth(80)
 
-
+        self.scatter_btn = QtWidgets.QPushButton("Scatter")
+        self.gridlay.addWidget(self.scatter_btn, 7, 0)
+        self.scatter_btn.setMaximumWidth(80)
 
 
 
