@@ -165,5 +165,39 @@ class ScatterUI(QtWidgets.QDialog):
         self.gridlay.addWidget(self.scatter_btn, 7, 0)
         self.scatter_btn.setMaximumWidth(80)
 
+# instance  onto hard  coded object
+import maya.cmds as cmds
 
+geometries = cmds.ls(geometry=True)
+cmds.select(geometries)
+
+xform = cmds.ls("*Cube1",  transforms=True)[0]
+cmds.setAttr(xform + ".translateY", 2)
+
+cmds.ls("pCubeShape1.vtx[*]", flatten=True)
+cmds.select("pCubeShape1.vtx[0:2]")
+
+cmds.move(0,2 ,2, ['pCube1'])
+
+vtx_selection = cmds.polyListComponentConversion("pCube1", toVertex=True) # get list of verts
+cmds.filterExpand(vtx_selection, selectionMask  = 31)# get non compact form of all verts list
+# add len() to get number of verts
+cmds.instance("pCube1", name = "pCube5")
+
+pos = cmds.xform(["pSphere1.vtx[276]"], query=True, translation=True)  #where is this vertex -> store it ina varible fro later use
+cmds.move(pos[0], pos[1], pos[2], "pCube1") # move to the vertex we have above
+
+
+vtx_selection = cmds.polyListComponentConversion("pSphere1", toVertex=True)
+vtx_selection = cmds.filterExpand(vtx_selection, selectionMask  = 31)
+
+cmds.select(vtx_selection)
+
+for vtx in  vtx_selection:
+    scatter_instance = cmds.instance("pCube1", name = "pCube5")
+    pos = cmds.xform([vtx], query=True, translation=True)  # use this if you need sclae and rotation
+    cmds.xform(scatter_instance, translation=pos)
+
+
+#at 1:50 in lecture
 
