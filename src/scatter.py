@@ -35,40 +35,49 @@
 import maya.cmds as cmds
 import random
 
-random.seed(1234)
+geometries = cmds.ls(geometry=True)
+cmds.select(geometries)
 
-result = cmds.ls( orderedSelection=True )
+xform = cmds.ls("*Cube1", transforms=True)[0]
+cmds.setAttr(xform + ".translateY", 2)
 
-print 'result: #s' # (result)
+cmds.ls("pCubeShape1.vtx[*]", flatten=True)
+cmds.select("pCubeShape1.vtx[0:2]")
 
-transformName = result[0]
+cmds.move(0, 2, 2, ['pCube1'])
 
-instanceGroupName = cmds.group(empty=True, name=transformName + '_instance_grp#')
-for i in range(0, 50):
-    instanceResult = cmds.instance(transformName, name=transformName + '_instance#')
+vtx_selection = cmds.polyListComponentConversion("pCube1", toVertex=True)  # get list of verts
+cmds.filterExpand(vtx_selection, selectionMask=31)  # get non compact form of all verts list
+# add len() to get number of verts
+cmds.instance("pCube1", name="pCube5")
 
-    cmds.parent(instanceResult, instanceGroupName)
+pos = cmds.xform(["pSphere1.vtx[276]"], query=True,
+                 translation=True)  # where is this vertex -> store it ina varible fro later use
+cmds.move(pos[0], pos[1], pos[2], "pCube1")  # move to the vertex we have above
 
-    # print 'instanceResult:'  + str(instanceResult)
+print(pos)
 
-    x = random.uniform(-10, 10)
-    y = random.uniform(0, 20)
-    z = random.uniform(-10, 10)
+vtx_selection = cmds.polyListComponentConversion("pSphere1", toVertex=True)
+vtx_selection = cmds.filterExpand(vtx_selection, selectionMask=31)
 
-    cmds.move(x, y, z, instanceResult)
+cmds.select(vtx_selection)
+
+for vtx in vtx_selection:
+    scatter_instance = cmds.instance("pCube1", name="pInstance *")
+    pos = cmds.xform([vtx], query=True, translation=True)  # use this if you need sclae and rotation
+    cmds.xform(scatter_instance, translation=pos)
 
     xRot = random.uniform(0, 360)
     yRot = random.uniform(0, 360)
     zRot = random.uniform(0, 360)
 
-    cmds.rotate(xRot, yRot, zRot, instanceResult)
+    cmds.rotate(xRot, yRot, zRot, scatter_instance)
 
     scalingFactor = random.uniform(0.3, 1.5)
 
-    cmds.scale(scalingFactor, scalingFactor, scalingFactor, instanceResult)
+    cmds.scale(scalingFactor, scalingFactor, scalingFactor, scatter_instance)
 
-cmds.hide(transformName)
-cmds.xform(instanceGroupName, centerPivots=True)
+    print(pos)
 
 # creating the ui
 
