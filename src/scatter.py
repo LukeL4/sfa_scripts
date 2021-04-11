@@ -1,76 +1,39 @@
-
-
-# mel script to add object to verts of another
-{
-    string $selection[] = `ls -os -fl`;
-
-    string $vertexNames[] = `filterExpand -selectionMask 31  -expand true $selection`;
-
-   // print $vertexNames;
-
-    string $objectToInstance = $selection[0];
-
-    if ( `objectType $objectToInstance` == "transform") {
-
-        string $vertex;
-        for( $vertex in $vertexNames ) {
-
-            string $newInstance[] = `instance $objectToInstance`;
-
-            vector $position = `pointPosition -w  $vertex`;
-
-            move -a -ws ($position.x) ($position.y) ($position.z) $newInstance;
-
-        }
-
-    } else {
-
-        print "please ensure the first object you select is a transform.";
-    }
-
-}
-
-# python for making random instances of a 1st selected onto 2nd selected
-
-import maya.cmds as cmds
-import random
-
-order = cmds.ls(orderedSelection=True)
-print
-"order: %s" % (result)
-
-toInstance = order[0]  # geometries stores name of first selected object
-instanceTo = order[1]
-print
-toInstance
-print
-instanceTo
-
-vtx_selection = cmds.polyListComponentConversion(instanceTo, toVertex=True)
-vtx_selection = cmds.filterExpand(vtx_selection, selectionMask=31)
-
-cmds.select(vtx_selection)
-
-for vtx in vtx_selection:
-    scatter_instance = cmds.instance(toInstance, name="pInstance *")
-    pos = cmds.xform([vtx], query=True, translation=True)  # use this if you need sclae and rotation
-    cmds.xform(scatter_instance, translation=pos)
-
-    xRot = random.uniform(0, 360)
-    yRot = random.uniform(0, 360)
-    zRot = random.uniform(0, 360)
-
-    cmds.rotate(xRot, yRot, zRot, scatter_instance)
-
-    scalingFactor = random.uniform(0.3, 1.5)
-
-    cmds.scale(scalingFactor, scalingFactor, scalingFactor, scatter_instance)
-
-# creating the ui
-
 import maya.OpenMayaUI as omui
 from PySide2 import QtWidgets, QtCore
 from shiboken2 import wrapInstance
+import maya.cmds as cmds
+import random
+
+
+@QtCore.Slot()
+def scatter_objects():
+    order = cmds.ls(orderedSelection=True)
+
+   # "order: %s" % (result)
+
+    toInstance = order[0]  # geometries stores name of first selected object
+    instanceTo = order[1]
+
+    vtx_selection = cmds.polyListComponentConversion(instanceTo, toVertex=True)
+    vtx_selection = cmds.filterExpand(vtx_selection, selectionMask=31)
+
+    cmds.select(vtx_selection)
+
+    for vtx in vtx_selection:
+        scatter_instance = cmds.instance(toInstance, name="pInstance *")
+        pos = cmds.xform([vtx], query=True, translation=True)  # use this if you need sclae and rotation
+        cmds.xform(scatter_instance, translation=pos)
+
+        xRot = random.uniform(0, 360)
+        yRot = random.uniform(0, 360)
+        zRot = random.uniform(0, 360)
+
+        cmds.rotate(xRot, yRot, zRot, scatter_instance)
+
+        scalingFactor = random.uniform(0.3, 1.5)
+
+        cmds.scale(scalingFactor, scalingFactor, scalingFactor, scatter_instance)
+
 
 
 def maya_main_window():
@@ -160,40 +123,5 @@ class ScatterUI(QtWidgets.QDialog):
         self.scatter_btn = QtWidgets.QPushButton("Scatter")
         self.gridlay.addWidget(self.scatter_btn, 7, 0)
         self.scatter_btn.setMaximumWidth(80)
-
-# instance  onto hard  coded object
-import maya.cmds as cmds
-
-geometries = cmds.ls(geometry=True)
-cmds.select(geometries)
-
-xform = cmds.ls("*Cube1",  transforms=True)[0]
-cmds.setAttr(xform + ".translateY", 2)
-
-cmds.ls("pCubeShape1.vtx[*]", flatten=True)
-cmds.select("pCubeShape1.vtx[0:2]")
-
-cmds.move(0,2 ,2, ['pCube1'])
-
-vtx_selection = cmds.polyListComponentConversion("pCube1", toVertex=True) # get list of verts
-cmds.filterExpand(vtx_selection, selectionMask  = 31)# get non compact form of all verts list
-# add len() to get number of verts
-cmds.instance("pCube1", name = "pCube5")
-
-pos = cmds.xform(["pSphere1.vtx[276]"], query=True, translation=True)  #where is this vertex -> store it ina varible fro later use
-cmds.move(pos[0], pos[1], pos[2], "pCube1") # move to the vertex we have above
-
-
-vtx_selection = cmds.polyListComponentConversion("pSphere1", toVertex=True)
-vtx_selection = cmds.filterExpand(vtx_selection, selectionMask  = 31)
-
-cmds.select(vtx_selection)
-
-for vtx in  vtx_selection:
-    scatter_instance = cmds.instance("pCube1", name = "pCube5")
-    pos = cmds.xform([vtx], query=True, translation=True)  # use this if you need sclae and rotation
-    cmds.xform(scatter_instance, translation=pos)
-
-
-#at 1:50 in lecture
+        self.scatter_btn.clicked.connect(scatter_objects)
 
