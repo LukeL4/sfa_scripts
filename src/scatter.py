@@ -30,40 +30,29 @@
 
 }
 
-# python for making random instances of a cube
+# python for making random instances of a 1st selected onto 2nd selected
 
 import maya.cmds as cmds
 import random
 
-geometries = cmds.ls(geometry=True)
-cmds.select(geometries)
+order = cmds.ls(orderedSelection=True)
+print
+"order: %s" % (result)
 
-xform = cmds.ls("*Cube1", transforms=True)[0]
-cmds.setAttr(xform + ".translateY", 2)
+toInstance = order[0]  # geometries stores name of first selected object
+instanceTo = order[1]
+print
+toInstance
+print
+instanceTo
 
-cmds.ls("pCubeShape1.vtx[*]", flatten=True)
-cmds.select("pCubeShape1.vtx[0:2]")
-
-cmds.move(0, 2, 2, ['pCube1'])
-
-vtx_selection = cmds.polyListComponentConversion("pCube1", toVertex=True)  # get list of verts
-cmds.filterExpand(vtx_selection, selectionMask=31)  # get non compact form of all verts list
-# add len() to get number of verts
-cmds.instance("pCube1", name="pCube5")
-
-pos = cmds.xform(["pSphere1.vtx[276]"], query=True,
-                 translation=True)  # where is this vertex -> store it ina varible fro later use
-cmds.move(pos[0], pos[1], pos[2], "pCube1")  # move to the vertex we have above
-
-print(pos)
-
-vtx_selection = cmds.polyListComponentConversion("pSphere1", toVertex=True)
+vtx_selection = cmds.polyListComponentConversion(instanceTo, toVertex=True)
 vtx_selection = cmds.filterExpand(vtx_selection, selectionMask=31)
 
 cmds.select(vtx_selection)
 
 for vtx in vtx_selection:
-    scatter_instance = cmds.instance("pCube1", name="pInstance *")
+    scatter_instance = cmds.instance(toInstance, name="pInstance *")
     pos = cmds.xform([vtx], query=True, translation=True)  # use this if you need sclae and rotation
     cmds.xform(scatter_instance, translation=pos)
 
@@ -76,8 +65,6 @@ for vtx in vtx_selection:
     scalingFactor = random.uniform(0.3, 1.5)
 
     cmds.scale(scalingFactor, scalingFactor, scalingFactor, scatter_instance)
-
-    print(pos)
 
 # creating the ui
 
