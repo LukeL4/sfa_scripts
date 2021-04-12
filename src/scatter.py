@@ -4,11 +4,6 @@ from shiboken2 import wrapInstance
 import maya.cmds as cmds
 import random
 
-
-
-# if order length is nto 2 put up message to  select 2 objects
-
-
 def maya_main_window():
     """return the maya main window widget"""
     main_window = omui.MQtUtil.mainWindow()
@@ -20,19 +15,17 @@ class ScatterUI(QtWidgets.QDialog):
 
     def __init__(self):
         """contructor"""
-        # passing the obhect SimpleUI as an argument to support
-        # makes this line python 2 and 3 compatible
         super(ScatterUI, self).__init__(parent=maya_main_window())
         self.setWindowTitle("Scatter Tool")
         self.setMinimumWidth(275)
         self.setMaximumWidth(275)
         self.setMinimumHeight(300)
-        self.setWindowFlags(self.windowFlags() ^ # ^ means except
-                            QtCore.Qt.WindowContextHelpButtonHint) #controls icons like min and max and cancel
+        self.setWindowFlags(self.windowFlags() ^
+                            QtCore.Qt.WindowContextHelpButtonHint)
         self.create_ui()
 
     def create_ui(self):
-        #  labels
+        """ label creation"""
         self.title_lbl = QtWidgets.QLabel("Scatter Tool")
         self.title_lbl.setStyleSheet("font:  bold 20px")
         self.random_lbl = QtWidgets.QLabel("Add Randomness")
@@ -70,7 +63,7 @@ class ScatterUI(QtWidgets.QDialog):
         self.gridlay.addWidget(self.scaleZ_lbl, 8, 0)
         self.setLayout(self.gridlay)
 
-# spin boxs
+        """spin box creation"""
         self.spin_xRotMin = QtWidgets.QSpinBox()
         self.gridlay.addWidget(self.spin_xRotMin, 3, 1)
         self.spin_xRotMin.setRange(0, 360)
@@ -92,6 +85,7 @@ class ScatterUI(QtWidgets.QDialog):
         self.spin_yRotMax.setRange(0, 360)
         self.spin_yRotMax.setMaximumWidth(100)
         self.spin_yRotMax.valueChanged.connect(self.valueChanged)
+
 
         self.spin_zRotMin = QtWidgets.QSpinBox()
         self.gridlay.addWidget(self.spin_zRotMin, 5, 1)
@@ -142,38 +136,27 @@ class ScatterUI(QtWidgets.QDialog):
         self.scatter_btn.setMaximumWidth(80)
         self.scatter_btn.clicked.connect(scatter_objects)
 
-    def user_input(self):
-        self.max_rotX.setText("User Entered Something")
-
-    def input_value(self):
-        return self.max_rotX.text()
-
     def valueChanged(self):
-        global xRot_min, xRot_max, yRot_min, yRot_max, zRot_min, zRot_max, \
-            xScale_min, xScale_max, yScale_min, yScale_max, zScale_min, zScale_max
-
-        xRot_min = self.spin_xRotMin.value()
-        xRot_max = self.spin_xRotMax.value()
-        yRot_min = self.spin_yRotMin.value()
-        yRot_max = self.spin_yRotMax.value()
-        zRot_min = self.spin_zRotMin.value()
-        zRot_max = self.spin_zRotMax.value()
-        xScale_min = self.spin_xScaleMin.value()
-        xScale_max = self.spin_xScaleMax.value()
-        yScale_min = self.spin_yScaleMin.value()
-        yScale_max = self.spin_yScaleMax.value()
-        zScale_min = self.spin_zScaleMin.value()
-        zScale_max = self.spin_zScaleMax.value()
+       global xRotMin, xRotMax, yRotMin, yRotMax, zRotMin, zRotMax, xScaleMin, xScaleMax, yScaleMin, yScaleMax,\
+           zScaleMin, zScaleMax
+       xRotMin = self.spin_xRotMin.value()
+       xRotMax = self.spin_xRotMax.value()
+       yRotMin = self.spin_yRotMin.value()
+       yRotMax = self.spin_yRotMax.value()
+       zRotMin = self.spin_zRotMin.value()
+       zRotMax = self.spin_zRotMax.value()
+       xScaleMin = self.spin_xScaleMin.value()
+       xScaleMax = self.spin_xScaleMax.value()
+       yScaleMin = self.spin_yScaleMin.value()
+       yScaleMax = self.spin_yScaleMax.value()
+       zScaleMin = self.spin_zScaleMin.value()
+       zScaleMax = self.spin_zScaleMax.value()
 
 @QtCore.Slot()
-def scatter_objects():
+def scatter_objects(X):
     order = cmds.ls(orderedSelection=True)
 
-    # if order length is 2 do this
-
-    # "order: %s" % (result)
-
-    toInstance = order[0]  # geometries stores name of first selected object
+    toInstance = order[0]
     instanceTo = order[1]
 
     vtx_selection = cmds.polyListComponentConversion(instanceTo, toVertex=True)
@@ -183,20 +166,17 @@ def scatter_objects():
 
     for vtx in vtx_selection:
         scatter_instance = cmds.instance(toInstance, name="pInstance *")
-        pos = cmds.xform([vtx], query=True, translation=True)  # use this if you need sclae and rotation
+        pos = cmds.xform([vtx], query=True, translation=True)
         cmds.xform(scatter_instance, translation=pos)
 
-        xRot = random.uniform(xRot_min, xRot_max)
-        yRot = random.uniform(yRot_min, yRot_max)
-        zRot = random.uniform(zRot_min, zRot_max)
+        xRot = random.uniform(xRotMin, xRotMax)
+        yRot = random.uniform(yRotMin, yRotMax)
+        zRot = random.uniform(zRotMin, zRotMax)
 
-        # print (xx)
         cmds.rotate(xRot, yRot, zRot, scatter_instance)
 
-        xScale = random.uniform(xScale_min, xScale_max)
-        yScale = random.uniform(yScale_min, yScale_max)
-        zScale = random.uniform(zScale_min, zScale_max)
+        xScale = random.uniform(xScaleMin, xScaleMax)
+        yScale = random.uniform(yScaleMin, yScaleMax)
+        zScale = random.uniform(zScaleMin, zScaleMax)
 
         cmds.scale(xScale, yScale, zScale, scatter_instance)
-
-
