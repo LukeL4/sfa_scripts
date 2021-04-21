@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="cleaned up code by creating neew methods in ScatterUi class">
+    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="added functinality for instancing to selcted verts">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scatter.py" afterDir="false" />
     </list>
     <list id="92ef9cbb-2fae-421e-8b9d-2ac39dfffc7e" name="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" comment="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" />
     <list id="7d39e077-bdc9-4888-895b-d324f203b200" name="Revert &quot;initalizing from a path, reduced the amount of arguments that go into intialization of scenefile&quot;" comment="Revert &quot;initalizing from a path, reduced the amount of arguments that go into intialization of scenefile&quot;&#10;&#10;This reverts commit 8743c1ae" />
@@ -416,7 +417,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619040213376</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="added functinality for instancing to selcted verts">
+      <created>1619042054078</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1619042054078</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -442,7 +450,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="CHanged name and added in code to open a ui window with maximum height and min width" />
     <MESSAGE value="Made a title for ui window and chnaged it be be bold and larger font size" />
     <MESSAGE value="Add a text line for where the file will save and a browse button. Put in horizontal layout and then nested them into vertical layout that was already there" />
     <MESSAGE value="Added in a new default save location (in maya scenes folder) and made a method out of code related to folder pathing so code is cleaner" />
@@ -467,7 +474,8 @@
     <MESSAGE value="added in all scaleing and rotation commands. Scaling with max is not working but it is with minimum for some reason" />
     <MESSAGE value="fixed scaling maximums" />
     <MESSAGE value="cleaned up code by creating neew methods in ScatterUi class" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleaned up code by creating neew methods in ScatterUi class" />
+    <MESSAGE value="added functinality for instancing to selcted verts" />
+    <option name="LAST_COMMIT_MESSAGE" value="added functinality for instancing to selcted verts" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
