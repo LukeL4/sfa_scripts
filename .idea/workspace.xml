@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables">
-      <change afterPath="$PROJECT_DIR$/Homework/SceneFile.py" afterDir="false" />
+    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="added in all scaleing and rotation commands. Scaling with max is not working but it is with minimum for some reason">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scatter.py" afterDir="false" />
     </list>
@@ -397,7 +396,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619021610856</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="added in all scaleing and rotation commands. Scaling with max is not working but it is with minimum for some reason">
+      <created>1619022885773</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1619022885773</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -423,7 +429,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Create a window and keep it above the maya window through parenting" />
     <MESSAGE value="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" />
     <MESSAGE value="Create a window and keep it above the maya window through parenting(window wont stay on top)" />
     <MESSAGE value="CHanged name and added in code to open a ui window with maximum height and min width" />
@@ -448,7 +453,8 @@
     <MESSAGE value="changed qline edits to spin boxs and made a xyz option for scale. (all codee works in another file but having some bugs in this file)" />
     <MESSAGE value="clean up code some" />
     <MESSAGE value="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables" />
-    <option name="LAST_COMMIT_MESSAGE" value="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables" />
+    <MESSAGE value="added in all scaleing and rotation commands. Scaling with max is not working but it is with minimum for some reason" />
+    <option name="LAST_COMMIT_MESSAGE" value="added in all scaleing and rotation commands. Scaling with max is not working but it is with minimum for some reason" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

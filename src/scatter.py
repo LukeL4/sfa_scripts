@@ -151,11 +151,11 @@ class ScatterUI(QtWidgets.QDialog):
         self.scatter.zRotMin = self.spin_zRotMin.value()
         self.scatter.zRotMax = self.spin_zRotMax.value()
         self.scatter.xScaleMin = self.spin_xScaleMin.value()
-        self.scatter.xScaleMin = self.spin_xScaleMin.value()
+        self.scatter.xScaleMin = self.spin_xScaleMax.value()
         self.scatter.yScaleMin = self.spin_yScaleMin.value()
-        self.scatter.yScaleMax = self.spin_yScaleMin.value()
-        self.scatter.xScaleMin = self.spin_zScaleMin.value()
-        self.scatter.xScaleMax = self.spin_zScaleMin.value()
+        self.scatter.yScaleMax = self.spin_yScaleMax.value()
+        self.scatter.zScaleMin = self.spin_zScaleMin.value()
+        self.scatter.zScaleMax = self.spin_zScaleMax.value()
 
 
 # change from having 2 types of naming conventions to only one using refactor
