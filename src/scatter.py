@@ -16,7 +16,6 @@ class ScatterUI(QtWidgets.QDialog):
     def __init__(self):
         """contructor"""
         super(ScatterUI, self).__init__(parent=maya_main_window())
-        # need handle for scatter class
         self.scatter = Scatter() #can now refer to scatter.method
         self.setWindowTitle("Scatter Tool")
         self.setMinimumWidth(275)
@@ -25,6 +24,10 @@ class ScatterUI(QtWidgets.QDialog):
         self.setWindowFlags(self.windowFlags() ^
                             QtCore.Qt.WindowContextHelpButtonHint)
         self.create_ui()
+        self.label_layout()
+        self.interactables_layout()
+        self.interactables_constraints()
+        self.scatter_button()
 
     def create_ui(self):
         # need to seperate out ui layout stuff and ui creation stuff
@@ -52,6 +55,69 @@ class ScatterUI(QtWidgets.QDialog):
         self.scaleZ_lbl = QtWidgets.QLabel("Scale Z")
         self.scaleZ_lbl.setStyleSheet("font:  bold 10px")
 
+        """spin box creation"""
+        self.spin_xRotMin = QtWidgets.QSpinBox()
+        self.spin_xRotMax = QtWidgets.QSpinBox()
+        self.spin_yRotMin = QtWidgets.QSpinBox()
+        self.spin_yRotMax = QtWidgets.QSpinBox()
+        self.spin_zRotMin = QtWidgets.QSpinBox()
+        self.spin_zRotMax = QtWidgets.QSpinBox()
+        self.spin_xScaleMin = QtWidgets.QSpinBox()
+        self.spin_xScaleMax = QtWidgets.QSpinBox()
+        self.spin_yScaleMin = QtWidgets.QSpinBox()
+        self.spin_yScaleMax = QtWidgets.QSpinBox()
+        self.spin_zScaleMin = QtWidgets.QSpinBox()
+        self.spin_zScaleMax = QtWidgets.QSpinBox()
+
+    def scatter_button(self):
+        self.scatter_btn = QtWidgets.QPushButton("Scatter")
+        self.gridlay.addWidget(self.scatter_btn, 9, 0)
+        self.scatter_btn.setMaximumWidth(80)
+        self.scatter_btn.clicked.connect(self.scatter_slot)
+
+    def interactables_constraints(self):
+        self.spin_xRotMin.setRange(0, 360)
+        self.spin_xRotMin.setMaximumWidth(100)
+        self.spin_xRotMax.setRange(0, 360)
+        self.spin_xRotMax.setMaximumWidth(100)
+        self.spin_yRotMin.setRange(0, 360)
+        self.spin_yRotMin.setMaximumWidth(100)
+        self.spin_yRotMax.setRange(0, 360)
+        self.spin_yRotMax.setMaximumWidth(100)
+        self.spin_zRotMin.setRange(0, 360)
+        self.spin_zRotMin.setMaximumWidth(100)
+        self.spin_zRotMax.setRange(0, 360)
+        self.spin_zRotMax.setMaximumWidth(100)
+        self.spin_xScaleMin.setRange(1, 10)
+        self.spin_xScaleMin.setMaximumWidth(100)
+        self.spin_xScaleMax.setRange(1, 10)
+        self.spin_xScaleMax.setMaximumWidth(100)
+        self.spin_yScaleMin.setRange(1, 10)
+        self.spin_yScaleMin.setMaximumWidth(100)
+        self.spin_yScaleMax.setRange(1, 10)
+        self.spin_yScaleMax.setMaximumWidth(100)
+        self.spin_zScaleMin.setRange(1, 10)
+        self.spin_zScaleMin.setMaximumWidth(100)
+        self.spin_zScaleMax.setRange(1, 10)
+        self.spin_zScaleMax.setMaximumWidth(100)
+
+
+    def interactables_layout(self):
+        self.gridlay.addWidget(self.spin_xRotMin, 3, 1)
+        self.gridlay.addWidget(self.spin_xRotMax, 3, 2)
+        self.gridlay.addWidget(self.spin_yRotMin, 4, 1)
+        self.gridlay.addWidget(self.spin_yRotMax, 4, 2)
+        self.gridlay.addWidget(self.spin_zRotMin, 5, 1)
+        self.gridlay.addWidget(self.spin_zRotMax, 5, 2)
+        self.gridlay.addWidget(self.spin_xScaleMin, 6, 1)
+        self.gridlay.addWidget(self.spin_xScaleMax, 6, 2)
+        self.gridlay.addWidget(self.spin_yScaleMin, 7, 1)
+        self.gridlay.addWidget(self.spin_yScaleMax, 7, 2)
+        self.gridlay.addWidget(self.spin_zScaleMin, 8, 1)
+        self.gridlay.addWidget(self.spin_zScaleMax, 8, 2)
+
+
+    def label_layout(self):
         self.gridlay = QtWidgets.QGridLayout()
         self.gridlay.addWidget(self.title_lbl, 0, 0)
         self.gridlay.addWidget(self.random_lbl, 1, 0)
@@ -65,78 +131,6 @@ class ScatterUI(QtWidgets.QDialog):
         self.gridlay.addWidget(self.scaleY_lbl, 7, 0)
         self.gridlay.addWidget(self.scaleZ_lbl, 8, 0)
         self.setLayout(self.gridlay)
-
-        """spin box creation"""
-        self.spin_xRotMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_xRotMin, 3, 1)
-        self.spin_xRotMin.setRange(0, 360)
-        self.spin_xRotMin.setMaximumWidth(100)
-        #self.spin_xRotMin.valueChanged.connect(self.valueChanged)
-        self.spin_xRotMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_xRotMax, 3, 2)
-        self.spin_xRotMax.setRange(0, 360)
-        self.spin_xRotMax.setMaximumWidth(100)
-       # self.spin_xRotMax.valueChanged.connect(self.valueChanged)
-
-        self.spin_yRotMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_yRotMin, 4, 1)
-        self.spin_yRotMin.setRange(0, 360)
-        self.spin_yRotMin.setMaximumWidth(100)
-        #self.spin_yRotMin.valueChanged.connect(self.valueChanged)
-        self.spin_yRotMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_yRotMax, 4, 2)
-        self.spin_yRotMax.setRange(0, 360)
-        self.spin_yRotMax.setMaximumWidth(100)
-        #self.spin_yRotMax.valueChanged.connect(self.valueChanged)
-
-        self.spin_zRotMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_zRotMin, 5, 1)
-        self.spin_zRotMin.setRange(0, 360)
-        self.spin_zRotMin.setMaximumWidth(100)
-        #self.spin_zRotMin.valueChanged.connect(self.valueChanged)
-        self.spin_zRotMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_zRotMax, 5, 2)
-        self.spin_zRotMax.setRange(0, 360)
-        self.spin_zRotMax.setMaximumWidth(100)
-        #self.spin_zRotMax.valueChanged.connect(self.valueChanged)
-
-        self.spin_xScaleMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_xScaleMin, 6, 1)
-        self.spin_xScaleMin.setRange(1, 10)
-        self.spin_xScaleMin.setMaximumWidth(100)
-       # self.spin_xScaleMin.valueChanged.connect(self.valueChanged)
-        self.spin_xScaleMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_xScaleMax, 6, 2)
-        self.spin_xScaleMax.setRange(1, 10)
-        self.spin_xScaleMax.setMaximumWidth(100)
-        #self.spin_xScaleMax.valueChanged.connect(self.valueChanged)
-
-        self.spin_yScaleMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_yScaleMin, 7, 1)
-        self.spin_yScaleMin.setRange(1, 10)
-        self.spin_yScaleMin.setMaximumWidth(100)
-        #self.spin_yScaleMin.valueChanged.connect(self.valueChanged)
-        self.spin_yScaleMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_yScaleMax, 7, 2)
-        self.spin_yScaleMax.setRange(1, 10)
-        self.spin_yScaleMax.setMaximumWidth(100)
-       # self.spin_yScaleMax.valueChanged.connect(self.valueChanged)
-
-        self.spin_zScaleMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_zScaleMin, 8, 1)
-        self.spin_zScaleMin.setRange(1, 10)
-        self.spin_zScaleMin.setMaximumWidth(100)
-        #self.spin_zScaleMin.valueChanged.connect(self.valueChanged)
-        self.spin_zScaleMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_zScaleMax, 8, 2)
-        self.spin_zScaleMax.setRange(1, 10)
-        self.spin_zScaleMax.setMaximumWidth(100)
-        #self.spin_zScaleMax.valueChanged.connect(self.valueChanged)
-
-        self.scatter_btn = QtWidgets.QPushButton("Scatter")
-        self.gridlay.addWidget(self.scatter_btn, 9, 0)
-        self.scatter_btn.setMaximumWidth(80)
-        self.scatter_btn.clicked.connect(self.scatter_slot)
 
     @QtCore.Slot()
     def scatter_slot(self):
