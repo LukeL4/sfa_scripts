@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="added in all scaleing and rotation commands. Scaling with max is not working but it is with minimum for some reason">
+    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="cleaned up code by creating neew methods in ScatterUi class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scatter.py" afterDir="false" />
     </list>
     <list id="92ef9cbb-2fae-421e-8b9d-2ac39dfffc7e" name="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" comment="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" />
     <list id="7d39e077-bdc9-4888-895b-d324f203b200" name="Revert &quot;initalizing from a path, reduced the amount of arguments that go into intialization of scenefile&quot;" comment="Revert &quot;initalizing from a path, reduced the amount of arguments that go into intialization of scenefile&quot;&#10;&#10;This reverts commit 8743c1ae" />
@@ -403,7 +402,21 @@
       <option name="project" value="LOCAL" />
       <updated>1619022885773</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="fixed scaling maximums">
+      <created>1619039208173</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1619039208173</updated>
+    </task>
+    <task id="LOCAL-00039" summary="cleaned up code by creating neew methods in ScatterUi class">
+      <created>1619040213376</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1619040213376</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -429,8 +442,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" />
-    <MESSAGE value="Create a window and keep it above the maya window through parenting(window wont stay on top)" />
     <MESSAGE value="CHanged name and added in code to open a ui window with maximum height and min width" />
     <MESSAGE value="Made a title for ui window and chnaged it be be bold and larger font size" />
     <MESSAGE value="Add a text line for where the file will save and a browse button. Put in horizontal layout and then nested them into vertical layout that was already there" />
@@ -454,7 +465,9 @@
     <MESSAGE value="clean up code some" />
     <MESSAGE value="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables" />
     <MESSAGE value="added in all scaleing and rotation commands. Scaling with max is not working but it is with minimum for some reason" />
-    <option name="LAST_COMMIT_MESSAGE" value="added in all scaleing and rotation commands. Scaling with max is not working but it is with minimum for some reason" />
+    <MESSAGE value="fixed scaling maximums" />
+    <MESSAGE value="cleaned up code by creating neew methods in ScatterUi class" />
+    <option name="LAST_COMMIT_MESSAGE" value="cleaned up code by creating neew methods in ScatterUi class" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

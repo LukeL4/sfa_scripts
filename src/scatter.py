@@ -175,7 +175,7 @@ class Scatter(object):
         order = cmds.ls(orderedSelection=True)
 
         toInstance = order[0]
-        instanceTo = order[1]
+        instanceTo = order[1:]
 
         vtx_selection = cmds.polyListComponentConversion(instanceTo, toVertex=True)
         vtx_selection = cmds.filterExpand(vtx_selection, selectionMask=31)
