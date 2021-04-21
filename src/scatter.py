@@ -151,7 +151,11 @@ class ScatterUI(QtWidgets.QDialog):
         self.scatter.zRotMin = self.spin_zRotMin.value()
         self.scatter.zRotMax = self.spin_zRotMax.value()
         self.scatter.xScaleMin = self.spin_xScaleMin.value()
-        self.scatter.xScaleMax = self.spin_xScaleMax.value()
+        self.scatter.xScaleMin = self.spin_xScaleMin.value()
+        self.scatter.yScaleMin = self.spin_yScaleMin.value()
+        self.scatter.yScaleMax = self.spin_yScaleMin.value()
+        self.scatter.xScaleMin = self.spin_zScaleMin.value()
+        self.scatter.xScaleMax = self.spin_zScaleMin.value()
 
 
 # change from having 2 types of naming conventions to only one using refactor
@@ -161,6 +165,17 @@ class Scatter(object):
     def __init__(self):
         self.xRotMin = 0
         self.xRotMax = 0
+        self.yRotMin = 0
+        self.yRotMax = 0
+        self.zRotMin = 0
+        self.zRotMax = 0
+        self.xScaleMin = 1
+        self.xScaleMax = 1
+        self.yScaleMin = 1
+        self.yScaleMax = 1
+        self.zScaleMin = 1
+        self.zScaleMax = 1
+
 
     def scatter_objects(self):
         order = cmds.ls(orderedSelection=True)
@@ -179,13 +194,13 @@ class Scatter(object):
             cmds.xform(scatter_instance, translation=pos)
 
             xRot = random.uniform(self.xRotMin, self.xRotMax)
-            yRot = random.uniform(1, 1)
-            zRot = random.uniform(1, 1)
+            yRot = random.uniform(self.yRotMin, self.yRotMax)
+            zRot = random.uniform(self.zRotMin, self.zRotMax)
 
             cmds.rotate(xRot, yRot, zRot, scatter_instance)
 
-            xScale = random.uniform(1, 1)
-            yScale = random.uniform(1, 1)
-            zScale = random.uniform(1, 1)
+            xScale = random.uniform(self.xScaleMin, self.xScaleMax)
+            yScale = random.uniform(self.yScaleMin, self.yScaleMax)
+            zScale = random.uniform(self.zScaleMin, self.zScaleMax)
 
             cmds.scale(xScale, yScale, zScale, scatter_instance)

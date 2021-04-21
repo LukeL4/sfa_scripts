@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables" />
+    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables">
+      <change afterPath="$PROJECT_DIR$/Homework/SceneFile.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scatter.py" afterDir="false" />
+    </list>
     <list id="92ef9cbb-2fae-421e-8b9d-2ac39dfffc7e" name="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" comment="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" />
     <list id="7d39e077-bdc9-4888-895b-d324f203b200" name="Revert &quot;initalizing from a path, reduced the amount of arguments that go into intialization of scenefile&quot;" comment="Revert &quot;initalizing from a path, reduced the amount of arguments that go into intialization of scenefile&quot;&#10;&#10;This reverts commit 8743c1ae" />
     <option name="SHOW_DIALOG" value="false" />
@@ -372,7 +376,28 @@
       <option name="project" value="LOCAL" />
       <updated>1618240794976</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables">
+      <created>1619021548351</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1619021548352</updated>
+    </task>
+    <task id="LOCAL-00035" summary="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables">
+      <created>1619021565587</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1619021565587</updated>
+    </task>
+    <task id="LOCAL-00036" summary="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables">
+      <created>1619021610856</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1619021610856</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -398,7 +423,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Finished video 9 module 5 &#10;added in incremental saving based on highest number in folder" />
     <MESSAGE value="Create a window and keep it above the maya window through parenting" />
     <MESSAGE value="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" />
     <MESSAGE value="Create a window and keep it above the maya window through parenting(window wont stay on top)" />
@@ -423,7 +447,8 @@
     <MESSAGE value="cleaened up unused code. added usablility to scatter button so it is linked with scatter code" />
     <MESSAGE value="changed qline edits to spin boxs and made a xyz option for scale. (all codee works in another file but having some bugs in this file)" />
     <MESSAGE value="clean up code some" />
-    <option name="LAST_COMMIT_MESSAGE" value="clean up code some" />
+    <MESSAGE value="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables" />
+    <option name="LAST_COMMIT_MESSAGE" value="created a class for scatter, changed how the scatter slot works, got rid of global variables for xrotmin etc. All works just need to add in other manipulation variables" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
