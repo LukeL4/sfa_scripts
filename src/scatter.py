@@ -189,7 +189,6 @@ class ScatterUI(QtWidgets.QDialog):
         self.gridlay.addWidget(self.offset_z_lbl, 13, 0)
 
 
-
         self.setLayout(self.gridlay)
 
     @QtCore.Slot()
@@ -283,10 +282,9 @@ class Scatter(object):
 
             cmds.scale(x_scale, y_scale, z_scale, scatter_instance)
 
-            """
+
             x_tran = random.uniform(self.spin_x_offset_min, self.spin_x_offset_max)
             y_tran = random.uniform(self.spin_y_offset_min, self.spin_y_offset_max)
             z_tran = random.uniform(self.spin_z_offset_min, self.spin_z_offset_max)
 
-            cmds.moveXYZ(x_tran, y_tran, z_tran, scatter_instance)
-"""
+            cmds.move(x_tran, y_tran, z_tran, scatter_instance, relative = True)
