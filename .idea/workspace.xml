@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="cleaned up naming conventions">
+    <list default="true" id="81f3747b-7252-425e-b48a-58f7442aabf7" name="Default Changelist" comment="added in code for offset to work">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scatter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scatter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scatter_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/scatter_test.py" afterDir="false" />
     </list>
     <list id="92ef9cbb-2fae-421e-8b9d-2ac39dfffc7e" name="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" comment="Revert &quot;Create a window and keep it above the maya window through parenting(window wont stay on top)&quot;" />
     <list id="7d39e077-bdc9-4888-895b-d324f203b200" name="Revert &quot;initalizing from a path, reduced the amount of arguments that go into intialization of scenefile&quot;" comment="Revert &quot;initalizing from a path, reduced the amount of arguments that go into intialization of scenefile&quot;&#10;&#10;This reverts commit 8743c1ae" />
@@ -445,7 +446,14 @@
       <option name="project" value="LOCAL" />
       <updated>1619632805404</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="added in code for offset to work">
+      <created>1619733071335</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1619733071335</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -471,7 +479,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="created headings for file nameing and placed them in their own method" />
     <MESSAGE value="Added in inputs for under filename headers, this includes a scroll wheel for verison number. Also cleaned up and made all headers their own method and all filename stuff its own method" />
     <MESSAGE value="Add in buttons for saving and incrementing save. Made them into a method. Added in stretch widget to fill keep buttons and other elements in place when ui expands." />
     <MESSAGE value="Added in defaults for fields and changed warning for default scene into a info message" />
@@ -496,7 +503,8 @@
     <MESSAGE value="added in functinality for instancing to only a percentage of selection. &#10;created a double spin box to control this percentage" />
     <MESSAGE value="added in ui for putting an position offset on instances. Added in the move code for itt but not working" />
     <MESSAGE value="cleaned up naming conventions" />
-    <option name="LAST_COMMIT_MESSAGE" value="cleaned up naming conventions" />
+    <MESSAGE value="added in code for offset to work" />
+    <option name="LAST_COMMIT_MESSAGE" value="added in code for offset to work" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

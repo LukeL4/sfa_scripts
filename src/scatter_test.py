@@ -1,12 +1,10 @@
+import random
+
 import maya.OpenMayaUI as omui
 from PySide2 import QtWidgets, QtCore
 from shiboken2 import wrapInstance
 import maya.cmds as cmds
-import random
-
-
-# if order length is nto 2 put up message to  select 2 objects
-
+import pymel.core as pm
 
 def maya_main_window():
     """return the maya main window widget"""
@@ -20,6 +18,7 @@ class ScatterUI(QtWidgets.QDialog):
     def __init__(self):
         """contructor"""
         super(ScatterUI, self).__init__(parent=maya_main_window())
+        self.scatter = Scatter() #can now refer to scatter.method
         self.setWindowTitle("Scatter Tool")
         self.setMinimumWidth(275)
         self.setMaximumWidth(275)
@@ -27,9 +26,14 @@ class ScatterUI(QtWidgets.QDialog):
         self.setWindowFlags(self.windowFlags() ^
                             QtCore.Qt.WindowContextHelpButtonHint)
         self.create_ui()
+        self.label_layout()
+        self.interactables_layout()
+        self.interactables_constraints()
+        self.scatter_button()
 
     def create_ui(self):
-        #  labels
+        # need to seperate out ui layout stuff and ui creation stuff
+        """ label creation"""
         self.title_lbl = QtWidgets.QLabel("Scatter Tool")
         self.title_lbl.setStyleSheet("font:  bold 20px")
         self.random_lbl = QtWidgets.QLabel("Add Randomness")
@@ -52,7 +56,120 @@ class ScatterUI(QtWidgets.QDialog):
         self.scaleY_lbl.setStyleSheet("font:  bold 10px")
         self.scaleZ_lbl = QtWidgets.QLabel("Scale Z")
         self.scaleZ_lbl.setStyleSheet("font:  bold 10px")
+        self.density_lbl = QtWidgets.QLabel("Scatter density")
+        self.density_lbl.setStyleSheet("font:  bold 10px")
+        self.density_guide_lbl = QtWidgets.QLabel("1 = 100%")
+        self.density_guide_lbl.setStyleSheet("font:  bold 10px")
+        self.offset_lbl = QtWidgets.QLabel("Create Offset")
+        self.offset_lbl.setStyleSheet("font:  bold 12px")
+        self.offset_x_lbl = QtWidgets.QLabel("Offset X")
+        self.offset_x_lbl.setStyleSheet("font:  bold 10px")
+        self.offset_y_lbl = QtWidgets.QLabel("Offset Y")
+        self.offset_y_lbl.setStyleSheet("font:  bold 10px")
+        self.offset_z_lbl = QtWidgets.QLabel("Offset Z")
+        self.offset_z_lbl.setStyleSheet("font:  bold 10px")
 
+
+
+        """spin box creation"""
+        self.spin_xrot_min = QtWidgets.QSpinBox()
+        self.spin_xrot_max = QtWidgets.QSpinBox()
+        self.spin_yrot_min = QtWidgets.QSpinBox()
+        self.spin_yrot_max = QtWidgets.QSpinBox()
+        self.spin_zrot_min = QtWidgets.QSpinBox()
+        self.spin_zrot_max = QtWidgets.QSpinBox()
+        self.spin_xscale_min = QtWidgets.QSpinBox()
+        self.spin_xscale_max = QtWidgets.QSpinBox()
+        self.spin_yscale_min = QtWidgets.QSpinBox()
+        self.spin_yscale_max = QtWidgets.QSpinBox()
+        self.spin_zscale_min = QtWidgets.QSpinBox()
+        self.spin_zscale_max = QtWidgets.QSpinBox()
+        self.spin_density = QtWidgets.QDoubleSpinBox()
+        self.spin_x_offset_min = QtWidgets.QSpinBox()
+        self.spin_x_offset_max = QtWidgets.QSpinBox()
+        self.spin_y_offset_min = QtWidgets.QSpinBox()
+        self.spin_y_offset_max = QtWidgets.QSpinBox()
+        self.spin_z_offset_min = QtWidgets.QSpinBox()
+        self.spin_z_offset_max = QtWidgets.QSpinBox()
+
+
+
+
+    def scatter_button(self):
+        self.scatter_btn = QtWidgets.QPushButton("Scatter")
+        self.gridlay.addWidget(self.scatter_btn, 14, 0)
+        self.scatter_btn.setMaximumWidth(80)
+        self.scatter_btn.clicked.connect(self.scatter_slot)
+
+    def interactables_constraints(self):
+        self.spin_xrot_min.setRange(0, 360)
+        self.spin_xrot_min.setMaximumWidth(100)
+        self.spin_xrot_max.setRange(0, 360)
+        self.spin_xrot_max.setMaximumWidth(100)
+        self.spin_yrot_min.setRange(0, 360)
+        self.spin_yrot_min.setMaximumWidth(100)
+        self.spin_yrot_max.setRange(0, 360)
+        self.spin_yrot_max.setMaximumWidth(100)
+        self.spin_zrot_min.setRange(0, 360)
+        self.spin_zrot_min.setMaximumWidth(100)
+        self.spin_zrot_max.setRange(0, 360)
+        self.spin_zrot_max.setMaximumWidth(100)
+        self.spin_xscale_min.setRange(1, 10)
+        self.spin_xscale_min.setMaximumWidth(100)
+        self.spin_xscale_max.setRange(1, 10)
+        self.spin_xscale_max.setMaximumWidth(100)
+        self.spin_yscale_min.setRange(1, 10)
+        self.spin_yscale_min.setMaximumWidth(100)
+        self.spin_yscale_max.setRange(1, 10)
+        self.spin_yscale_max.setMaximumWidth(100)
+        self.spin_zscale_min.setRange(1, 10)
+        self.spin_zscale_min.setMaximumWidth(100)
+        self.spin_zscale_max.setRange(1, 10)
+        self.spin_zscale_max.setMaximumWidth(100)
+        self.spin_density.setRange(0, 1)
+        self.spin_density.setMaximumWidth(100)
+        self.spin_density.setSingleStep(.01)
+        self.spin_density.setValue(1)
+        self.spin_x_offset_min.setRange(0, 10)
+        self.spin_x_offset_min.setMaximumWidth(100)
+        self.spin_x_offset_max.setRange(0, 10)
+        self.spin_x_offset_max.setMaximumWidth(100)
+        self.spin_y_offset_min.setRange(0, 10)
+        self.spin_y_offset_min.setMaximumWidth(100)
+        self.spin_y_offset_max.setRange(0, 10)
+        self.spin_y_offset_max.setMaximumWidth(100)
+        self.spin_z_offset_min.setRange(0, 10)
+        self.spin_z_offset_min.setMaximumWidth(100)
+        self.spin_z_offset_max.setRange(0, 10)
+        self.spin_z_offset_max.setMaximumWidth(100)
+
+
+
+    def interactables_layout(self):
+        self.gridlay.addWidget(self.spin_xrot_min, 3, 1)
+        self.gridlay.addWidget(self.spin_xrot_max, 3, 2)
+        self.gridlay.addWidget(self.spin_yrot_min, 4, 1)
+        self.gridlay.addWidget(self.spin_yrot_max, 4, 2)
+        self.gridlay.addWidget(self.spin_zrot_min, 5, 1)
+        self.gridlay.addWidget(self.spin_zrot_max, 5, 2)
+        self.gridlay.addWidget(self.spin_xscale_min, 6, 1)
+        self.gridlay.addWidget(self.spin_xscale_max, 6, 2)
+        self.gridlay.addWidget(self.spin_yscale_min, 7, 1)
+        self.gridlay.addWidget(self.spin_yscale_max, 7, 2)
+        self.gridlay.addWidget(self.spin_zscale_min, 8, 1)
+        self.gridlay.addWidget(self.spin_zscale_max, 8, 2)
+        self.gridlay.addWidget(self.spin_density, 9, 1)
+        self.gridlay.addWidget(self.spin_x_offset_min, 11, 1)
+        self.gridlay.addWidget(self.spin_x_offset_max, 11, 2)
+        self.gridlay.addWidget(self.spin_y_offset_min, 12, 1)
+        self.gridlay.addWidget(self.spin_y_offset_max, 12, 2)
+        self.gridlay.addWidget(self.spin_z_offset_min, 13, 1)
+        self.gridlay.addWidget(self.spin_z_offset_max, 13, 2)
+
+
+
+
+    def label_layout(self):
         self.gridlay = QtWidgets.QGridLayout()
         self.gridlay.addWidget(self.title_lbl, 0, 0)
         self.gridlay.addWidget(self.random_lbl, 1, 0)
@@ -65,122 +182,119 @@ class ScatterUI(QtWidgets.QDialog):
         self.gridlay.addWidget(self.scaleX_lbl, 6, 0)
         self.gridlay.addWidget(self.scaleY_lbl, 7, 0)
         self.gridlay.addWidget(self.scaleZ_lbl, 8, 0)
+        self.gridlay.addWidget(self.density_lbl, 9, 0)
+        self.gridlay.addWidget(self.density_guide_lbl, 9, 2)
+        self.gridlay.addWidget(self.offset_lbl, 10, 0)
+        self.gridlay.addWidget(self.offset_x_lbl, 11, 0)
+        self.gridlay.addWidget(self.offset_y_lbl, 12, 0)
+        self.gridlay.addWidget(self.offset_z_lbl, 13, 0)
+
+
         self.setLayout(self.gridlay)
 
-        """spin box creation"""
-        self.spin_xRotMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_xRotMin, 3, 1)
-        self.spin_xRotMin.setRange(0, 360)
-        self.spin_xRotMin.setMaximumWidth(100)
-        self.spin_xRotMin.valueChanged.connect(self.valueChanged)
-        self.spin_xRotMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_xRotMax, 3, 2)
-        self.spin_xRotMax.setRange(0, 360)
-        self.spin_xRotMax.setMaximumWidth(100)
-        self.spin_xRotMax.valueChanged.connect(self.valueChanged)
+    @QtCore.Slot()
+    def scatter_slot(self):
+        self._set_scatter_properties_from_ui()
+        self.scatter.scatter_objects()
 
-        self.spin_yRotMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_yRotMin, 4, 1)
-        self.spin_yRotMin.setRange(0, 360)
-        self.spin_yRotMin.setMaximumWidth(100)
-        self.spin_yRotMin.valueChanged.connect(self.valueChanged)
-        self.spin_yRotMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_yRotMax, 4, 2)
-        self.spin_yRotMax.setRange(0, 360)
-        self.spin_yRotMax.setMaximumWidth(100)
-        self.spin_yRotMax.valueChanged.connect(self.valueChanged)
+    def _set_scatter_properties_from_ui(self):
+        self.scatter.x_rot_min = self.spin_xrot_min.value()
+        self.scatter.x_rot_max = self.spin_xrot_max.value()
+        self.scatter.y_rot_min = self.spin_yrot_min.value()
+        self.scatter.y_rot_max = self.spin_yrot_max.value()
+        self.scatter.z_rot_min = self.spin_zrot_min.value()
+        self.scatter.z_rot_max = self.spin_zrot_max.value()
+        self.scatter.x_scale_min = self.spin_xscale_min.value()
+        self.scatter.x_scale_min = self.spin_xscale_max.value()
+        self.scatter.y_scale_min = self.spin_yscale_min.value()
+        self.scatter.y_scale_max = self.spin_yscale_max.value()
+        self.scatter.z_scale_min = self.spin_zscale_min.value()
+        self.scatter.z_scale_max = self.spin_zscale_max.value()
+        self.scatter.spin_density = self.spin_density.value()
+        self.scatter.spin_x_offset_min = self.spin_x_offset_min.value()
+        self.scatter.spin_x_offset_max = self.spin_x_offset_max.value()
+        self.scatter.spin_y_offset_min = self.spin_y_offset_min.value()
+        self.scatter.spin_y_offset_max = self.spin_y_offset_max.value()
+        self.scatter.spin_z_offset_min = self.spin_z_offset_min.value()
+        self.scatter.spin_z_offset_max = self.spin_z_offset_max.value()
+
+class Scatter(object):
+
+    def __init__(self):
+        self.x_rot_min = 0
+        self.x_rot_max = 0
+        self.y_rot_min = 0
+        self.y_rot_max = 0
+        self.z_rot_min = 0
+        self.z_rot_max = 0
+        self.x_scale_min = 1
+        self.x_scale_max = 1
+        self.y_scale_min = 1
+        self.y_scale_max = 1
+        self.z_scale_min = 1
+        self.z_scale_max = 1
+        self.spin_density = 1.0
+        self.spin_x_offset_min = 0
+        self.spin_x_offset_max = 0
+        self.spin_y_offset_min = 0
+        self.spin_y_offset_max = 0
+        self.spin_z_offset_min = 0
+        self.spin_z_offset_max = 0
+        self.counter = 0
 
 
-        self.spin_zRotMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_zRotMin, 5, 1)
-        self.spin_zRotMin.setRange(0, 360)
-        self.spin_zRotMin.setMaximumWidth(100)
-        self.spin_zRotMin.valueChanged.connect(self.valueChanged)
-        self.spin_zRotMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_zRotMax, 5, 2)
-        self.spin_zRotMax.setRange(0, 360)
-        self.spin_zRotMax.setMaximumWidth(100)
-        self.spin_zRotMax.valueChanged.connect(self.valueChanged)
 
-        self.spin_xScaleMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_xScaleMin, 6, 1)
-        self.spin_xScaleMin.setRange(1, 10)
-        self.spin_xScaleMin.setMaximumWidth(100)
-        self.spin_xScaleMin.valueChanged.connect(self.valueChanged)
-        self.spin_xScaleMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_xScaleMax, 6, 2)
-        self.spin_xScaleMax.setRange(1, 10)
-        self.spin_xScaleMax.setMaximumWidth(100)
-        self.spin_xScaleMax.valueChanged.connect(self.valueChanged)
+    def scatter_objects(self):
+        order = cmds.ls(orderedSelection=True)
 
-        self.spin_yScaleMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_yScaleMin, 7, 1)
-        self.spin_yScaleMin.setRange(1, 10)
-        self.spin_yScaleMin.setMaximumWidth(100)
-        self.spin_yScaleMin.valueChanged.connect(self.valueChanged)
-        self.spin_yScaleMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_yScaleMax, 7, 2)
-        self.spin_yScaleMax.setRange(1, 10)
-        self.spin_yScaleMax.setMaximumWidth(100)
-        self.spin_yScaleMax.valueChanged.connect(self.valueChanged)
+        to_instance = order[0]
+        instance_to = order[1:]
+        #mesh_vert = pm.MeshVertex(vert)
+       # mesh_vert.getNormal()
 
-        self.spin_zScaleMin = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_zScaleMin, 8, 1)
-        self.spin_zScaleMin.setRange(1, 10)
-        self.spin_zScaleMin.setMaximumWidth(100)
-        self.spin_zScaleMin.valueChanged.connect(self.valueChanged)
-        self.spin_zScaleMax = QtWidgets.QSpinBox()
-        self.gridlay.addWidget(self.spin_zScaleMax, 8, 2)
-        self.spin_zScaleMax.setRange(1, 10)
-        self.spin_zScaleMax.setMaximumWidth(100)
-        self.spin_zScaleMax.valueChanged.connect(self.valueChanged)
 
-        self.scatter_btn = QtWidgets.QPushButton("Scatter")
-        self.gridlay.addWidget(self.scatter_btn, 9, 0)
-        self.scatter_btn.setMaximumWidth(80)
-        self.scatter_btn.clicked.connect(scatter_objects)
+        vtx_selection = cmds.polyListComponentConversion(instance_to, toVertex=True)
+        vtx_selection = cmds.filterExpand(vtx_selection, selectionMask=31)
+# only use a percent of selcted vets
+        len(vtx_selection)
+        random_amount = int(round(len(vtx_selection) * self.spin_density))
+        percentage_selection = random.sample(vtx_selection, k=random_amount)
+        cmds.select(percentage_selection)
 
-    def valueChanged(self):
-       global xRotMin, xRotMax, yRotMin, yRotMax, zRotMin, zRotMax, xScaleMin, xScaleMax, yScaleMin, yScaleMax,\
-           zScaleMin, zScaleMax
-       xRotMin = self.spin_xRotMin.value()
-       xRotMax = self.spin_xRotMax.value()
-       yRotMin = self.spin_yRotMin.value()
-       yRotMax = self.spin_yRotMax.value()
-       zRotMin = self.spin_zRotMin.value()
-       zRotMax = self.spin_zRotMax.value()
-       xScaleMin = self.spin_xScaleMin.value()
-       xScaleMax = self.spin_xScaleMax.value()
-       yScaleMin = self.spin_yScaleMin.value()
-       yScaleMax = self.spin_yScaleMax.value()
-       zScaleMin = self.spin_zScaleMin.value()
-       zScaleMax = self.spin_zScaleMax.value()
+        print(percentage_selection)
 
-@QtCore.Slot()
-def scatter_objects(X):
-    order = cmds.ls(orderedSelection=True)
+        for vtx in percentage_selection:
 
-    toInstance = order[0]
-    instanceTo = order[1]
+            scatter_instance = cmds.instance(to_instance, name="pInstance *")
+            pos = cmds.xform([vtx], query=True, translation=True)
+            cmds.xform(scatter_instance, translation=pos)
+            print(self.counter)
+            temp = str(self.counter)
+            print(temp)
 
-    vtx_selection = cmds.polyListComponentConversion(instanceTo, toVertex=True)
-    vtx_selection = cmds.filterExpand(vtx_selection, selectionMask=31)
+            names = ("pInstance " + temp)
+            print(names)
+            cmds.normalConstraint(percentage_selection[self.counter], names)
+            print("pInstance *")
 
-    cmds.select(vtx_selection)
+            x_rot = random.uniform(self.x_rot_min, self.x_rot_max)
+            y_rot = random.uniform(self.y_rot_min, self.y_rot_max)
+            z_rot = random.uniform(self.z_rot_min, self.z_rot_max)
 
-    for vtx in vtx_selection:
-        scatter_instance = cmds.instance(toInstance, name="pInstance *")
-        pos = cmds.xform([vtx], query=True, translation=True)
-        cmds.xform(scatter_instance, translation=pos)
+            cmds.rotate(x_rot, y_rot, z_rot, scatter_instance)
 
-        xRot = random.uniform(xRotMin, xRotMax)
-        yRot = random.uniform(yRotMin, yRotMax)
-        zRot = random.uniform(zRotMin, zRotMax)
+            x_scale = random.uniform(self.x_scale_min, self.x_scale_max)
+            y_scale = random.uniform(self.y_scale_min, self.y_scale_max)
+            z_scale = random.uniform(self.z_scale_min, self.z_scale_max)
 
-        cmds.rotate(xRot, yRot, zRot, scatter_instance)
+            cmds.scale(x_scale, y_scale, z_scale, scatter_instance)
 
-        xScale = random.uniform(xScaleMin, xScaleMax)
-        yScale = random.uniform(yScaleMin, yScaleMax)
-        zScale = random.uniform(zScaleMin, zScaleMax)
 
-        cmds.scale(xScale, yScale, zScale, scatter_instance)
+            x_tran = random.uniform(self.spin_x_offset_min, self.spin_x_offset_max)
+            y_tran = random.uniform(self.spin_y_offset_min, self.spin_y_offset_max)
+            z_tran = random.uniform(self.spin_z_offset_min, self.spin_z_offset_max)
+
+            cmds.move(x_tran, y_tran, z_tran, scatter_instance, relative = True)
+
+            self.counter = self.counter + 1
+            print (self.counter)

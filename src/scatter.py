@@ -1,8 +1,9 @@
+import random
+
 import maya.OpenMayaUI as omui
 from PySide2 import QtWidgets, QtCore
 from shiboken2 import wrapInstance
 import maya.cmds as cmds
-import random
 import pymel.core as pm
 
 def maya_main_window():
@@ -67,10 +68,12 @@ class ScatterUI(QtWidgets.QDialog):
         self.offset_y_lbl.setStyleSheet("font:  bold 10px")
         self.offset_z_lbl = QtWidgets.QLabel("Offset Z")
         self.offset_z_lbl.setStyleSheet("font:  bold 10px")
+        self.allign_normals_label = QtWidgets.QLabel("Allign to Nornals")
+        self.allign_normals_label.setStyleSheet("font:  bold 10px")
 
 
 
-        """spin box creation"""
+        """create interactable"""
         self.spin_xrot_min = QtWidgets.QSpinBox()
         self.spin_xrot_max = QtWidgets.QSpinBox()
         self.spin_yrot_min = QtWidgets.QSpinBox()
@@ -90,13 +93,14 @@ class ScatterUI(QtWidgets.QDialog):
         self.spin_y_offset_max = QtWidgets.QSpinBox()
         self.spin_z_offset_min = QtWidgets.QSpinBox()
         self.spin_z_offset_max = QtWidgets.QSpinBox()
+        self.allign_normals = QtWidgets.QCheckBox()
 
 
 
 
     def scatter_button(self):
         self.scatter_btn = QtWidgets.QPushButton("Scatter")
-        self.gridlay.addWidget(self.scatter_btn, 14, 0)
+        self.gridlay.addWidget(self.scatter_btn, 15, 0)
         self.scatter_btn.setMaximumWidth(80)
         self.scatter_btn.clicked.connect(self.scatter_slot)
 
@@ -141,6 +145,8 @@ class ScatterUI(QtWidgets.QDialog):
         self.spin_z_offset_min.setMaximumWidth(100)
         self.spin_z_offset_max.setRange(0, 10)
         self.spin_z_offset_max.setMaximumWidth(100)
+        self.allign_normals.setMaximumWidth(10)
+
 
 
 
@@ -164,6 +170,8 @@ class ScatterUI(QtWidgets.QDialog):
         self.gridlay.addWidget(self.spin_y_offset_max, 12, 2)
         self.gridlay.addWidget(self.spin_z_offset_min, 13, 1)
         self.gridlay.addWidget(self.spin_z_offset_max, 13, 2)
+        self.gridlay.addWidget(self.allign_normals, 14, 1)
+
 
 
 
@@ -187,8 +195,7 @@ class ScatterUI(QtWidgets.QDialog):
         self.gridlay.addWidget(self.offset_x_lbl, 11, 0)
         self.gridlay.addWidget(self.offset_y_lbl, 12, 0)
         self.gridlay.addWidget(self.offset_z_lbl, 13, 0)
-
-
+        self.gridlay.addWidget(self.allign_normals_label, 14, 0)
         self.setLayout(self.gridlay)
 
     @QtCore.Slot()
@@ -216,6 +223,12 @@ class ScatterUI(QtWidgets.QDialog):
         self.scatter.spin_y_offset_max = self.spin_y_offset_max.value()
         self.scatter.spin_z_offset_min = self.spin_z_offset_min.value()
         self.scatter.spin_z_offset_max = self.spin_z_offset_max.value()
+        if self.allign_normals.isChecked == True:
+            self.allign_normals = True
+        else:
+            self.allign_normals = False
+
+
 
 class Scatter(object):
 
@@ -239,11 +252,13 @@ class Scatter(object):
         self.spin_y_offset_max = 0
         self.spin_z_offset_min = 0
         self.spin_z_offset_max = 0
+        self.allign_normals = False
 
 
 
     def scatter_objects(self):
         order = cmds.ls(orderedSelection=True)
+        print(self.allign_normals )
 
         to_instance = order[0]
         instance_to = order[1:]
